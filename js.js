@@ -1,4 +1,5 @@
 let nameList = {};
+let tags = [];
 
 const tag = (keyword) => {
     let tag = document.createElement('span');
@@ -8,7 +9,7 @@ const tag = (keyword) => {
     tag.innerText = keyword;
     x.className = 'bi bi-x ml-2 pointer';
     x.style.cursor = 'pointer';
-    x.addEventListener('click', event =>  event.target.parentNode.remove());
+    x.addEventListener('click', event =>  {event.target.parentNode.remove(); filter();});
     tag.appendChild(x);
     return tag;
 }
@@ -16,7 +17,10 @@ const tag = (keyword) => {
 
 const search = (event) => {
     const keyword = event.target.previousElementSibling.value;
+    if (keyword === '' || tags.includes(keyword)) {return};
     document.querySelector('.tags').append(tag(keyword));
+    filter();
+    event.target.previousElementSibling.value = '';
 }
 
 const init = () => {
@@ -28,6 +32,21 @@ const getNames = () => {
     const cards = [...document.querySelectorAll('.card')]
     const names = cards.map(item => item.querySelector('.card-title').innerText)
     names.forEach((key, i) => nameList[key] = cards[i]);
+}
+
+
+const filter = () => {
+    tags = [...document.querySelectorAll('.badge-pill')].map(item => item.innerText);
+    console.log(nameList);
+    Object.values(nameList).forEach(card => card.parentElement.classList.remove('d-none'));
+    for(keyword of tags) {
+        let regex = new RegExp(keyword, 'i');
+        for(name in nameList) {
+            if (!regex.test(name)) {
+                nameList[name].parentElement.classList.add('d-none');
+            }
+        }
+    }
 }
 
 window.onload = init;
