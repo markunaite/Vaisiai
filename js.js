@@ -1,3 +1,5 @@
+let nameList = {};
+
 const tag = (keyword) => {
     let tag = document.createElement('span');
     let x = document.createElement('i');
@@ -19,8 +21,13 @@ const search = (event) => {
 
 const init = () => {
     document.querySelector('.form-inline > button').addEventListener('click', search);
+    getNames();
 }
 
-
+const getNames = () => {
+    const cards = [...document.querySelectorAll('.card')]
+    const names = cards.map(item => item.querySelector('.card-title').innerText)
+    names.forEach((key, i) => nameList[key] = cards[i]);
+}
 
 window.onload = init;
