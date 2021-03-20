@@ -38,12 +38,12 @@ const getNames = () => {
 const filter = () => {
     tags = [...document.querySelectorAll('.badge-pill')].map(item => item.innerText);
     console.log(nameList);
-    Object.values(nameList).forEach(card => card.classList.remove('d-none'));
+    Object.values(nameList).forEach(card => card.parentElement.classList.remove('d-none'));
     for(keyword of tags) {
         let regex = new RegExp(keyword, 'i');
         for(name in nameList) {
             if (!regex.test(name)) {
-                nameList[name].classList.add('d-none');
+                nameList[name].parentElement.classList.add('d-none');
             }
         }
     }
