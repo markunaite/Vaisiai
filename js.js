@@ -36,8 +36,10 @@ const getNames = () => {
 
 
 const filter = () => {
+    let isAlert = document.querySelector('.container > .alert-warning');
+    if (isAlert) {isAlert.remove()};
+
     tags = [...document.querySelectorAll('.badge-pill')].map(item => item.innerText);
-    console.log(nameList);
     Object.values(nameList).forEach(card => card.parentElement.classList.remove('d-none'));
     for(keyword of tags) {
         let regex = new RegExp(keyword, 'i');
@@ -46,6 +48,15 @@ const filter = () => {
                 nameList[name].parentElement.classList.add('d-none');
             }
         }
+    }
+    
+    if (!document.querySelector('.col-md-4:not(.d-none)')) {
+        let p = document.createElement('p');
+        p.className = 'alert alert-warning';
+        p.id = 'msg';
+        p.innerText = 'Pagal paieškos kriterijus elementų nerasta!';
+        document.querySelector('.album > .container').appendChild(p);
+        console.log(p);
     }
 }
 
